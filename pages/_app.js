@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import "../styles/globals.css";
-import "@rainbow-me/rainbowkit/style.css";
+import "@rainbow-me/rainbowkit/styles.css";
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -10,10 +10,10 @@ const alchemyId = process.env.NEXT_PUBLIC_ALCHEMY_ID;
 
 const {chains, provider} = configureChains(
   [chain.polygon],
-  [alchemyProvider({ alchemyId }), publicProvider]
+  [alchemyProvider({ alchemyId }), publicProvider()]
 );
 
-const { connectors } = gerDefaultWallets({
+const { connectors } = getDefaultWallets({
   appName: "web3rsvp",
   chains,
 });
