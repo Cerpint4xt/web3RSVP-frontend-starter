@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
-
-import getRandomImage from "../utils/getRandomImage";
 import { ethers } from "ethers";
-import connectContract from "../utils/connectContract";
-
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import Alert from "../components/Alert";
-
-
+import connectContract from "../utils/connectContract";
+import getRandomImage from "../utils/getRandomImage";
 
 export default function CreateEvent() {
   const { data: account } = useAccount();
@@ -60,22 +56,23 @@ export default function CreateEvent() {
   }
 
   const createEvent = async (cid) => {
-    try{
+    try {
       const rsvpContract = connectContract();
 
       if (rsvpContract) {
         let deposit = ethers.utils.parseEther(refund);
         let eventDateAndTime = new Date(`${eventDate} ${eventTime}`);
         let eventTimestamp = eventDateAndTime.getTime();
-        let eventDataCID =cid;
+        let eventDataCID = cid;
 
-        const txn = await rsvpContract.createNewEvent (
+        const txn = await rsvpContract.createNewEvent(
           eventTimestamp,
           deposit,
           maxCapacity,
           eventDataCID,
-          {gasLimit: 900000}
+          { gasLimit: 900000 }
         );
+
         setLoading(true);
         console.log("Minting...", txn.hash);
         let wait = await txn.wait();
@@ -88,7 +85,7 @@ export default function CreateEvent() {
       } else {
         console.log("Error getting contract.");
       }
-    } catch (error){
+    } catch (error) {
       setSuccess(false);
       setMessage(`There was an error creating your event: ${error.message}`);
       setLoading(false);
