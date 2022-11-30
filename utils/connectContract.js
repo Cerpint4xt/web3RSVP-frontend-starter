@@ -2,7 +2,7 @@ import abiJSON from "./Web3RSVP.json";
 import { ethers } from "ethers";
 
 function connectContract() { 
-    const contractAddress = "0xcAB2fe796d642b2c7D9FFD2D6cCB3b948dB276cC";
+    const contractAddress = "0xfA6aAF437f52D8e2c9AA15Bef0349DD07903d03f";
     const contractABI = abiJSON.abi;
     let rsvpContract;
     try {
@@ -11,7 +11,7 @@ function connectContract() {
         if (ethereum) {
             const provider = new ethers.providers.Web3Provider(ethereum);
             const signer = provider.getSigner();
-            rsvpContract = new ethers.Contract(contracAddress, cntractABI, signer);
+            rsvpContract = new ethers.Contract(contractAddress, contractABI, signer);
         } else {
             console.log("Ethereum object doesn't exist!");
         }
