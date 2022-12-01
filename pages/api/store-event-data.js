@@ -14,7 +14,7 @@ export default async function handler(req, res) {
 async function storeEventData(req, res){
     const body = req.body;
     try {
-        const files = await makeFileObjects(body);
+        const files = await makeFileObject(body);
         const cid = await storeFiles(files);
         return res.status(200).json({ success: true, cid: cid });
     } catch (err) {
@@ -24,13 +24,7 @@ async function storeEventData(req, res){
     }
 }
 
-async function storeFiles(files) {
-    const client = makeStorageClient();
-    const cid = await client.put(files);
-    return cid;
-}
-
-async function makeFileObjects(body){
+async function makeFileObject(body){
     const buffer = Buffer.from(JSON.stringify(body));
 
     const imageDirectory = resolve(process.cwd(), `public/images/${body.image}`);
@@ -44,3 +38,8 @@ function makeStorageClient() {
     return new Web3Storage({ token: process.env.WEB3STORAGE_TOKEN});
 }
 
+async function storeFiles(files) {
+    const client = makeStorageClient();
+    const cid = await client.put(files);
+    return cid;
+}
